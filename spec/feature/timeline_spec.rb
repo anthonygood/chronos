@@ -59,6 +59,20 @@ describe "Timeline" do
     Redis.new.flushdb
   end
 
+  # bobs_list
+  #   4000
+  #   3500
+
+  # janes_list
+  #   3000
+  #   2500
+
+  # all_list
+  # bob 4000
+  # jane 3000
+
+# get from 3000 to 4000
+
   it "has activities" do
     log(created_ts: 4000, user_id: jane)
     log(created_ts: 3000, user_id: bob)
@@ -72,7 +86,8 @@ describe "Timeline" do
 
     expect(Chronos::Timeline.fetch('123')).to eql(expected)
   end
-  it "has nested activities" do
+
+  it "has nested activities", :focus do
     log(created_ts: 1000, user_id: jane)
     log(created_ts: 2000, user_id: bob)
     log(created_ts: 3000, user_id: bob)
@@ -92,5 +107,18 @@ describe "Timeline" do
     
     expect(Chronos::Timeline.fetch('123')).to eql(expected)
   end
+
+  # describe "fetching with score" do
+  #   it "returns an array of arrays" do
+  #     log(created_ts: 1000, user_id: jane)
+
+  #     items = Chronos::Store.db.zrange "student_group:123:timeline", 0, 20, with_scores: true
+
+
+  #     puts items
+
+  #     expect(items.first.class).to be Array
+  #   end
+  # end
 
 end
